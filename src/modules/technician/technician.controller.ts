@@ -29,8 +29,26 @@ const getTechniciansById = catchAsync(
     });
   }
 );
+const updateTechnicianProfile = catchAsync(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.user?.id;
+    const payload = req.body;
+    const updatedProfile =
+      await technicianServices.updateTechnicianProfileIntoDB(
+        id as string,
+        payload
+      );
+    sendResponse(res, {
+      success: true,
+      statusCode: httpStatus.OK,
+      message: "Technician profile updated successfully!",
+      data: updatedProfile,
+    });
+  }
+);
 
 export const technicianControllers = {
   getAllTechnicians,
   getTechniciansById,
+  updateTechnicianProfile,
 };
