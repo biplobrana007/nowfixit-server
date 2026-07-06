@@ -1,11 +1,12 @@
 model User {
-    id           String     @id @default(uuid())
-    name         String     @db.VarChar(255)
-    email        String     @unique
-    password     String
-    status       UserStatus @default(ACTIVE)
-    profilePhoto String?
-    role         Role
+    id                String             @id @default(uuid())
+    name              String             @db.VarChar(255)
+    email             String             @unique
+    password          String
+    status            UserStatus         @default(ACTIVE)
+    profilePhoto      String?
+    role              Role
+    technicianProfile TechnicianProfile?
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

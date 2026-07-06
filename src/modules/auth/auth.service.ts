@@ -42,6 +42,14 @@ const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
     },
   });
 
+  if (createdUser.role === "TECHNICIAN") {
+    await prisma.technicianProfile.create({
+      data: {
+        userId: createdUser.id,
+      },
+    });
+  }
+
   const user = await prisma.user.findUnique({
     where: {
       id: createdUser.id,
