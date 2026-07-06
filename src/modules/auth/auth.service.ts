@@ -111,7 +111,21 @@ const loginUserFromDB = async (payload: ILoginUserPaylod) => {
   };
 };
 
+const getCurrentUserFromDB = async (id: string) => {
+  const user = await prisma.user.findUnique({
+    where: {
+      id,
+    },
+    omit: {
+      password: true,
+    },
+  });
+
+  return user;
+};
+
 export const authServices = {
   registerUserIntoDB,
   loginUserFromDB,
+  getCurrentUserFromDB,
 };
