@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 import { Prisma } from "../../generated/prisma/client";
+import ThrowError from "../utils/throwError";
 
 export const globalErrorHandler = (
   err: any,
@@ -35,6 +36,9 @@ export const globalErrorHandler = (
         (errorMessage =
           "Authentication failed against database server, the provided database credentials are not valid. Please make sure to provide valid database credentials.");
     }
+  }else if(err instanceof ThrowError){
+    statusCode = err.statusCode;
+    errorMessage= err.message
   }
   res.status(statusCode || httpStatus.INTERNAL_SERVER_ERROR).json({
     success: false,
