@@ -11,10 +11,10 @@ model User {
     services          Service[]
 
     technicinBookings Booking[] @relation("TechnicianBookings")
-    customerBookings Booking[] @relation("CustomerBookings")
+    customerBookings  Booking[] @relation("CustomerBookings")
 
-    echnicianReviews Review[] @relation("TechnicianReviews")
-    customerReviews Review[] @relation("CustomerReviews")
+    technicianReviews Review[] @relation("TechnicianReviews")
+    customerReviews   Review[] @relation("CustomerReviews")
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt
