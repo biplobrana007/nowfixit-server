@@ -7,3 +7,8 @@ export interface IRegisterUserPayload {
   role: Role;
   profilePhoto?: string;
 }
+
+export interface ILoginUserPaylod {
+  email: string;
+  password: string;
+}
