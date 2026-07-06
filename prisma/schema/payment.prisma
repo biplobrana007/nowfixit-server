@@ -1,0 +1,18 @@
+model Payment {
+    id            String @id @default(ulid())
+    transactionId String @unique
+
+    bookingId String  @unique
+    booking   Booking @relation(fields: [bookingId], references: [id])
+
+    amount   Float
+    method   PaymentMethod
+    provider PaymentProvider
+    paidAT   DateTime
+    status   PaymentStatus
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    @@map("payments")
+}

@@ -1,12 +1,20 @@
 model User {
-    id                String             @id @default(uuid())
-    name              String             @db.VarChar(255)
-    email             String             @unique
-    password          String
-    status            UserStatus         @default(ACTIVE)
-    profilePhoto      String?
-    role              Role
+    id           String     @id @default(uuid())
+    name         String     @db.VarChar(255)
+    email        String     @unique
+    password     String
+    status       UserStatus @default(ACTIVE)
+    profilePhoto String?
+    role         Role
+
     technicianProfile TechnicianProfile?
+    services          Service[]
+
+    technicinBookings Booking[] @relation("TechnicianBookings")
+    customerBookings Booking[] @relation("CustomerBookings")
+
+    echnicianReviews Review[] @relation("TechnicianReviews")
+    customerReviews Review[] @relation("CustomerReviews")
 
     createdAt DateTime @default(now())
     updatedAt DateTime @updatedAt

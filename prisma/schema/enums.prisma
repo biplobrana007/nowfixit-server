@@ -8,3 +8,31 @@ enum Role {
     CUSTOMER
     ADMIN
 }
+
+enum BookingStatus {
+    REQUESTED
+    ACCEPTED
+    DECLINED
+    PAID
+    IN_PROGRESS
+    COMPLETED
+    CANCELLED
+}
+
+enum PaymentMethod {
+    CARD
+    MOBILE_BANKING
+}
+
+enum PaymentProvider {
+    STRIPE
+    SSLCOMMEREZ
+}
+
+enum PaymentStatus {
+    PENDING
+    COMPLETED
+    FAILED
+    CANCELLED
+    REFUNDED
+}
