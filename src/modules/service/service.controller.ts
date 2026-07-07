@@ -38,11 +38,15 @@ const getAllService = catchAsync(
 
 const getServiceById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const serviceId = req.params.id;
+    const service = await serviceServices.getServiceByIdFromDB(
+      serviceId as string
+    );
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
       message: "Service retrieved successfully!",
-      data: "",
+      data: service,
     });
   }
 );

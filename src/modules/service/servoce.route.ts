@@ -7,5 +7,6 @@ const router = Router();
 
 router.post("/", auth(Role.TECHNICIAN), serviceControllers.createService);
 router.get("/", serviceControllers.getAllService);
+router.get("/:id", serviceControllers.getServiceById);
 
 export const serviceRouter = router;

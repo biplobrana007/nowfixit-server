@@ -1,5 +1,7 @@
 import { prisma } from "../../lib/prisma";
+import ThrowError from "../../utils/throwError";
 import { ICreateServicePayload } from "./service.interface";
+import httpStatus from "http-status";
 
 const createServiceIntoDB = async (
   technicianId: string,
@@ -37,7 +39,33 @@ const getAllServiceFromDB = async () => {
   });
   return services;
 };
-const getServiceByIdFromDB = async () => {};
+
+const getServiceByIdFromDB = async (serviceId: string) => {
+  const service = await prisma.service.findUnique({
+    where: {
+      id: serviceId,
+    },
+    include: {
+      technician: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+      category: {
+        select: {
+          categoryName: true,
+        },
+      },
+    },
+  });
+
+  if (!service) {
+    throw new ThrowError(httpStatus.NOT_FOUND, "Service Not Found!");
+  }
+  return service;
+};
+
 const updateServiceIntoDB = async () => {};
 const deleteServiceFromDB = async () => {};
 
