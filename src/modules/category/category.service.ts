@@ -7,7 +7,6 @@ import {
 import httpStatus from "http-status";
 
 const createCategoryIntoDB = async (payload: ICreateCategoryPayload) => {
-  
   const createdCategory = await prisma.category.create({
     data: {
       categoryName: payload.categoryName,
@@ -26,7 +25,6 @@ const updateCategoryIntoDB = async (
   categoryId: string,
   payload: IUpdateCategoryPayload
 ) => {
- 
   const updatedCategory = await prisma.category.update({
     where: {
       id: categoryId,
@@ -39,7 +37,13 @@ const updateCategoryIntoDB = async (
   return updatedCategory;
 };
 
-const deleteCategoryFromDB = async (categoryId:string) => {};
+const deleteCategoryFromDB = async (categoryId: string) => {
+  await prisma.category.delete({
+    where: {
+      id: categoryId,
+    },
+  });
+};
 
 export const categoryServices = {
   createCategoryIntoDB,
