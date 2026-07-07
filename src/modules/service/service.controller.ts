@@ -29,7 +29,7 @@ const getAllService = catchAsync(
 
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
+      statusCode: httpStatus.OK,
       message: "All services retrieved successfully!",
       data: services,
     });
@@ -44,7 +44,7 @@ const getServiceById = catchAsync(
     );
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
+      statusCode: httpStatus.OK,
       message: "Service retrieved successfully!",
       data: service,
     });
@@ -53,13 +53,21 @@ const getServiceById = catchAsync(
 
 const updateService = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const serviceId = req.params.id;
+    const technicanId = req.user?.id;
     const payload = req.body;
+
+    const updatedService = await serviceServices.updateServiceIntoDB(
+      serviceId as string,
+      technicanId as string,
+      payload
+    );
 
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
+      statusCode: httpStatus.OK,
       message: "Service retrieved successfully!",
-      data: "",
+      data: updatedService,
     });
   }
 );
@@ -68,7 +76,7 @@ const deleteService = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
+      statusCode: httpStatus.OK,
       message: "Service retrieved successfully!",
       data: "",
     });

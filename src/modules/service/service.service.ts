@@ -1,6 +1,9 @@
 import { prisma } from "../../lib/prisma";
 import ThrowError from "../../utils/throwError";
-import { ICreateServicePayload } from "./service.interface";
+import {
+  ICreateServicePayload,
+  IUpdateServicePayload,
+} from "./service.interface";
 import httpStatus from "http-status";
 
 const createServiceIntoDB = async (
@@ -66,7 +69,45 @@ const getServiceByIdFromDB = async (serviceId: string) => {
   return service;
 };
 
-const updateServiceIntoDB = async () => {};
+const updateServiceIntoDB = async (
+  serviceId: string,
+  technicanId: string,
+  payload: IUpdateServicePayload
+) => {
+  const service = await prisma.service.findUnique({
+    where: {
+      id: serviceId,
+    },
+  });
+
+  if (!service) {
+    throw new ThrowError(httpStatus.NOT_FOUND, "Service not found!");
+  }
+
+  if (service.technicianId !== technicanId) {
+    throw new ThrowError(
+      httpStatus.FORBIDDEN,
+      "You are not the owner of this service. So you can't update the service!"
+    );
+  }
+
+  const updatedService = await prisma.service.update({
+    where: {
+      id: service.id,
+      technicianId: service.technicianId,
+    },
+    data: {
+      title: payload.title,
+      description: payload.description,
+      price: payload.price,
+      duration: payload.duration,
+      categoryId: payload.categoryId,
+      isAvailable: payload.isAvailable,
+    },
+  });
+
+  return updatedService;
+};
 const deleteServiceFromDB = async () => {};
 
 export const serviceServices = {

@@ -8,5 +8,10 @@ const router = Router();
 router.post("/", auth(Role.TECHNICIAN), serviceControllers.createService);
 router.get("/", serviceControllers.getAllService);
 router.get("/:id", serviceControllers.getServiceById);
+router.patch(
+  "/:id",
+  auth(Role.TECHNICIAN, Role.ADMIN),
+  serviceControllers.updateService
+);
 
 export const serviceRouter = router;
