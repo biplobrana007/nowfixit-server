@@ -31,11 +31,17 @@ const getAllCategory = catchAsync(
 );
 const updateCategory = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const categoryId = req.params.id;
+    const payload = req.body;
+    const updatedCategory = await categoryServices.updateCategoryIntoDB(
+      categoryId as string,
+      payload
+    );
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
       message: "Category updated successfully",
-      data: "",
+      data: updatedCategory,
     });
   }
 );

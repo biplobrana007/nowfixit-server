@@ -1,19 +1,13 @@
 import { prisma } from "../../lib/prisma";
 import ThrowError from "../../utils/throwError";
-import { ICreateCategoryPayload } from "./category.interface";
+import {
+  ICreateCategoryPayload,
+  IUpdateCategoryPayload,
+} from "./category.interface";
 import httpStatus from "http-status";
 
 const createCategoryIntoDB = async (payload: ICreateCategoryPayload) => {
-  const isCategoryExist = await prisma.category.findMany({
-    where: { categoryName: payload.categoryName },
-  });
-
-  if (isCategoryExist.length !== 0) {
-    throw new ThrowError(
-      httpStatus.BAD_REQUEST,
-      "Category name already exist. Please try another!"
-    );
-  }
+  
   const createdCategory = await prisma.category.create({
     data: {
       categoryName: payload.categoryName,
@@ -28,9 +22,24 @@ const getAllCategoryFromDB = async () => {
   return categories;
 };
 
-const updateCategoryIntoDB = async () => {};
+const updateCategoryIntoDB = async (
+  categoryId: string,
+  payload: IUpdateCategoryPayload
+) => {
+ 
+  const updatedCategory = await prisma.category.update({
+    where: {
+      id: categoryId,
+    },
+    data: {
+      categoryName: payload.categoryName,
+    },
+  });
 
-const deleteCategoryFromDB = async () => {};
+  return updatedCategory;
+};
+
+const deleteCategoryFromDB = async (categoryId:string) => {};
 
 export const categoryServices = {
   createCategoryIntoDB,
