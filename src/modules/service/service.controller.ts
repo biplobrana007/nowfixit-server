@@ -3,6 +3,7 @@ import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import httpStatus from "http-status";
 import { serviceServices } from "./service.service";
+
 const createService = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
@@ -24,13 +25,13 @@ const createService = catchAsync(
 
 const getAllService = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const payload = req.body;
+    const services = await serviceServices.getAllServiceFromDB();
 
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
       message: "All services retrieved successfully!",
-      data: "",
+      data: services,
     });
   }
 );

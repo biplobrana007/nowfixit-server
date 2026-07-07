@@ -7,7 +7,7 @@ model Service {
     duration    Float
 
     technicianId String
-    user         User   @relation(fields: [technicianId], references: [id], onDelete: Cascade)
+    technician   User   @relation(fields: [technicianId], references: [id], onDelete: Cascade)
 
     categoryId String
     category   Category @relation(fields: [categoryId], references: [id])

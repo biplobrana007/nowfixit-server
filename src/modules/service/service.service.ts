@@ -19,7 +19,24 @@ const createServiceIntoDB = async (
   return createdService;
 };
 
-const getAllServiceFromDB = async () => {};
+const getAllServiceFromDB = async () => {
+  const services = await prisma.service.findMany({
+    include: {
+      technician: {
+        select: {
+          name: true,
+          email: true,
+        },
+      },
+      category: {
+        select: {
+          categoryName: true,
+        },
+      },
+    },
+  });
+  return services;
+};
 const getServiceByIdFromDB = async () => {};
 const updateServiceIntoDB = async () => {};
 const deleteServiceFromDB = async () => {};
