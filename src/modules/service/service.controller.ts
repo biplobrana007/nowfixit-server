@@ -66,7 +66,7 @@ const updateService = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "Service retrieved successfully!",
+      message: "Service updated successfully!",
       data: updatedService,
     });
   }
@@ -74,11 +74,20 @@ const updateService = catchAsync(
 
 const deleteService = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const serviceId = req.params.id;
+    const technicanId = req.user?.id;
+    const isAdmin = req.user?.role === "ADMIN";
+
+    await serviceServices.deleteServiceFromDB(
+      serviceId as string,
+      technicanId as string,
+      isAdmin as boolean
+    );
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "Service retrieved successfully!",
-      data: "",
+      message: "Service deleted successfully!",
+      data: null,
     });
   }
 );

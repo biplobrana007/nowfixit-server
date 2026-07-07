@@ -108,7 +108,35 @@ const updateServiceIntoDB = async (
 
   return updatedService;
 };
-const deleteServiceFromDB = async () => {};
+
+const deleteServiceFromDB = async (
+  serviceId: string,
+  technicanId: string,
+  isAdmin: boolean
+) => {
+  const service = await prisma.service.findUnique({
+    where: {
+      id: serviceId,
+    },
+  });
+
+  if (!service) {
+    throw new ThrowError(httpStatus.NOT_FOUND, "Service not found!");
+  }
+
+  if (!isAdmin && service.technicianId !== technicanId) {
+    throw new ThrowError(
+      httpStatus.UNAUTHORIZED,
+      "NO! access. You can't delete the service!"
+    );
+  }
+
+  await prisma.service.delete({
+    where: {
+      id: service.id,
+    },
+  });
+};
 
 export const serviceServices = {
   createServiceIntoDB,

@@ -8,10 +8,11 @@ const router = Router();
 router.post("/", auth(Role.TECHNICIAN), serviceControllers.createService);
 router.get("/", serviceControllers.getAllService);
 router.get("/:id", serviceControllers.getServiceById);
-router.patch(
+router.patch("/:id", auth(Role.TECHNICIAN), serviceControllers.updateService);
+router.delete(
   "/:id",
   auth(Role.TECHNICIAN, Role.ADMIN),
-  serviceControllers.updateService
+  serviceControllers.deleteService
 );
 
 export const serviceRouter = router;
