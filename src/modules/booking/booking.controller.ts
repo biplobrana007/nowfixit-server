@@ -76,11 +76,18 @@ const getBookingById = catchAsync(
 
 const cancelBooking = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const bookingId = req.params.id;
+    const customerId = req.user?.id;
+
+    const cancelledBooking = await bookingServices.cancelBookingIntoDB(
+      bookingId as string,
+      customerId as string
+    );
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
-      message: "Service created successfully!",
-      data: "",
+      statusCode: httpStatus.OK,
+      message: "Booking canceled successfully!",
+      data: cancelledBooking,
     });
   }
 );

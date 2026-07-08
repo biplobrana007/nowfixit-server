@@ -89,7 +89,46 @@ const getBookingByIdFromDB = async (
   return booking;
 };
 
-const cancelBookingIntoDB = async () => {};
+const cancelBookingIntoDB = async (bookingId: string, customerId: string) => {
+  const booking = await prisma.booking.findUnique({
+    where: {
+      id: bookingId,
+    },
+  });
+
+  if (!booking) {
+    throw new ThrowError(httpStatus.NOT_FOUND, "Booking not found!");
+  }
+
+  if (customerId !== booking.customerId) {
+    throw new ThrowError(
+      httpStatus.UNAUTHORIZED,
+      "You have no access for this booking!"
+    );
+  }
+
+  const canCalcel =
+    booking.status === "REQUESTED" || booking.status === "ACCEPTED";
+
+  if (!canCalcel) {
+    throw new ThrowError(
+      httpStatus.FORBIDDEN,
+      `Sorry, you can't cancel the ${booking.status} booking.`
+    );
+  }
+
+  const cancelledBooking = await prisma.booking.update({
+    where: {
+      id: booking.id,
+    },
+    data: {
+      status: "CANCELLED",
+    },
+  });
+
+  return cancelledBooking;
+};
+
 const updateBookingStatusIntoDB = async (
   bookingId: string,
   technicanId: string,
