@@ -17,5 +17,10 @@ router.get(
   auth(Role.TECHNICIAN),
   bookingControllers.getOwnReceivedBookings
 );
+router.get(
+  "/:id",
+  auth(Role.ADMIN, Role.CUSTOMER, Role.TECHNICIAN),
+  bookingControllers.getBookingById
+);
 
 export const bookingRouter = router;

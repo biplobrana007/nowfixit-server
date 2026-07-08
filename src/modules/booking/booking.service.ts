@@ -54,7 +54,36 @@ const getOwnReceivedBookingsFromDB = async (technicanId: string) => {
 
   return bookings;
 };
-const getBookingByIdFromDB = async () => {};
+
+const getBookingByIdFromDB = async (
+  bookingId: string,
+  userId: string,
+  isAdmin: boolean
+) => {
+  const booking = await prisma.booking.findUnique({
+    where: {
+      id: bookingId,
+    },
+  });
+
+  if (!booking) {
+    throw new ThrowError(httpStatus.NOT_FOUND, "Booking not found!");
+  }
+
+  if (
+    !isAdmin &&
+    userId !== booking.technicianId &&
+    userId !== booking.customerId
+  ) {
+    throw new ThrowError(
+      httpStatus.UNAUTHORIZED,
+      "You have no access for this booking!"
+    );
+  }
+
+  return booking;
+};
+
 const cancelBookingIntoDB = async () => {};
 const updateBookingStatusIntoDB = async () => {};
 const getAllBookingsFromDB = async () => {};

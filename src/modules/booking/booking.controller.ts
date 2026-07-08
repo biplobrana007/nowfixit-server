@@ -52,16 +52,28 @@ const getOwnReceivedBookings = catchAsync(
     });
   }
 );
+
 const getBookingById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const bookingId = req.params.id;
+    const userId = req.user?.id;
+    const isAdmin = req.user?.role === "ADMIN";
+
+    const booking = await bookingServices.getBookingByIdFromDB(
+      bookingId as string,
+      userId as string,
+      isAdmin
+    );
+
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
-      message: "Service created successfully!",
-      data: "",
+      statusCode: httpStatus.OK,
+      message: "Booking retrieved successfully!",
+      data: booking,
     });
   }
 );
+
 const cancelBooking = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     sendResponse(res, {
