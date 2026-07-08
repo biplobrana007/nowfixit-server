@@ -38,14 +38,17 @@ const getOwnCreatedBookings = catchAsync(
   }
 );
 
-
 const getOwnReceivedBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const technicanId = req.user?.id;
+    const bookings = await bookingServices.getOwnReceivedBookingsFromDB(
+      technicanId as string
+    );
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
-      message: "Service created successfully!",
-      data: "",
+      statusCode: httpStatus.OK,
+      message: "Retrieved technician's own received bookings successfully!",
+      data: bookings,
     });
   }
 );

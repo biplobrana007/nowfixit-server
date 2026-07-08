@@ -7,6 +7,15 @@ import { bookingServices } from "./booking.service";
 const router = Router();
 
 router.post("/", auth(Role.CUSTOMER), bookingControllers.createBooking);
-router.get("/my-bookings",auth(Role.CUSTOMER),bookingControllers.getOwnCreatedBookings)
+router.get(
+  "/my-bookings",
+  auth(Role.CUSTOMER),
+  bookingControllers.getOwnCreatedBookings
+);
+router.get(
+  "/my-received-bookings",
+  auth(Role.TECHNICIAN),
+  bookingControllers.getOwnReceivedBookings
+);
 
 export const bookingRouter = router;

@@ -44,7 +44,16 @@ const getOwnCreatedBookingsFromDB = async (customerId: string) => {
 
   return bookings;
 };
-const getOwnReceivedBookingsFromDB = async () => {};
+
+const getOwnReceivedBookingsFromDB = async (technicanId: string) => {
+  const bookings = await prisma.booking.findMany({
+    where: {
+      technicianId: technicanId,
+    },
+  });
+
+  return bookings;
+};
 const getBookingByIdFromDB = async () => {};
 const cancelBookingIntoDB = async () => {};
 const updateBookingStatusIntoDB = async () => {};
