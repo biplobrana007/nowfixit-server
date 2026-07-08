@@ -1,5 +1,5 @@
 model Booking {
-    id         String @id @default(uuid())
+    id String @id @default(uuid())
 
     customerId String
     customer   User   @relation("CustomerBookings", fields: [customerId], references: [id])
@@ -8,7 +8,7 @@ model Booking {
     technician   User   @relation("TechnicianBookings", fields: [technicianId], references: [id])
 
     serviceId String
-    service Service @relation(fields: [serviceId], references: [id])
+    service   Service @relation(fields: [serviceId], references: [id])
 
     bookingTime DateTime
     timeSlot    String
@@ -18,9 +18,12 @@ model Booking {
     note String?
 
     payment Payment?
-    review Review?
+    review  Review?
 
     status BookingStatus @default(REQUESTED)
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
 
     @@map("bookings")
 }

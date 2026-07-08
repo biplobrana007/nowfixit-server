@@ -8,6 +8,7 @@ import { notFound } from "./middleware/notFound";
 import { technicianRouter } from "./modules/technician/technician.route";
 import { categoryRouter } from "./modules/category/category.route";
 import { serviceRouter } from "./modules/service/servoce.route";
+import { bookingRouter } from "./modules/booking/booking.route";
 
 const app: Application = express();
 
@@ -32,6 +33,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/technicians", technicianRouter);
 app.use("/api/categories", categoryRouter);
 app.use("/api/services",serviceRouter)
+app.use("/api/bookings",bookingRouter)
 
 //error handling
 app.use(notFound);
