@@ -98,11 +98,12 @@ const updateBookingStatus = catchAsync(
 // access: only admin
 const getAllBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const bookings = await bookingServices.getAllBookingsFromDB();
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
       message: "Service created successfully!",
-      data: "",
+      data: bookings,
     });
   }
 );

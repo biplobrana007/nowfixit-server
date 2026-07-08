@@ -23,4 +23,6 @@ router.get(
   bookingControllers.getBookingById
 );
 
+router.get("/",auth(Role.ADMIN), bookingControllers.getAllBookings)
+
 export const bookingRouter = router;

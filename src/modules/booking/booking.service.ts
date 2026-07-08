@@ -86,7 +86,11 @@ const getBookingByIdFromDB = async (
 
 const cancelBookingIntoDB = async () => {};
 const updateBookingStatusIntoDB = async () => {};
-const getAllBookingsFromDB = async () => {};
+
+const getAllBookingsFromDB = async () => {
+  const bookings = await prisma.booking.findMany();
+  return bookings;
+};
 
 export const bookingServices = {
   createBookingIntoDB,
