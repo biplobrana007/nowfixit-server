@@ -86,11 +86,21 @@ const cancelBooking = catchAsync(
 );
 const updateBookingStatus = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const bookingId = req.params.id;
+    const payload = req.body;
+    const technicanId = req.user?.id;
+
+    const updatedBooking = await bookingServices.updateBookingStatusIntoDB(
+      bookingId as string,
+      technicanId as string,
+      payload
+    );
+
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
-      message: "Service created successfully!",
-      data: "",
+      statusCode: httpStatus.OK,
+      message: "Booking status updated successfully!",
+      data: updatedBooking,
     });
   }
 );

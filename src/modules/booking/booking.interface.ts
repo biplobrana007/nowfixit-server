@@ -6,3 +6,7 @@ export interface ICreateBookingPayload {
   bookingSlot: string;
   note?: string;
 }
+
+export interface IUpdateBookingStatus {
+  status?: BookingStatus;
+}

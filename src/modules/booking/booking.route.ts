@@ -2,7 +2,7 @@ import { Router } from "express";
 import auth from "../../middleware/auth";
 import { Role } from "../../../generated/prisma/enums";
 import { bookingControllers } from "./booking.controller";
-import { bookingServices } from "./booking.service";
+
 
 const router = Router();
 
@@ -23,6 +23,12 @@ router.get(
   bookingControllers.getBookingById
 );
 
-router.get("/",auth(Role.ADMIN), bookingControllers.getAllBookings)
+router.patch(
+  "/:id/status",
+  auth(Role.TECHNICIAN),
+  bookingControllers.updateBookingStatus
+);
+
+router.get("/", auth(Role.ADMIN), bookingControllers.getAllBookings);
 
 export const bookingRouter = router;
