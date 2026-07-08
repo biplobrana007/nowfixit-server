@@ -35,19 +35,27 @@ const createBookingIntoDB = async (
   return createdBooking;
 };
 
-const getOwnCreatedBookings = async () => {};
-const getOwnReceivedBookings = async () => {};
-const getBookingById = async () => {};
-const cancelBooking = async () => {};
-const updateBookingStatus = async () => {};
-const getAllBookings = async () => {};
+const getOwnCreatedBookingsFromDB = async (customerId: string) => {
+  const bookings = await prisma.booking.findMany({
+    where: {
+      customerId: customerId,
+    },
+  });
+
+  return bookings;
+};
+const getOwnReceivedBookingsFromDB = async () => {};
+const getBookingByIdFromDB = async () => {};
+const cancelBookingIntoDB = async () => {};
+const updateBookingStatusIntoDB = async () => {};
+const getAllBookingsFromDB = async () => {};
 
 export const bookingServices = {
   createBookingIntoDB,
-  getOwnCreatedBookings,
-  getOwnReceivedBookings,
-  getBookingById,
-  cancelBooking,
-  updateBookingStatus,
-  getAllBookings,
+  getOwnCreatedBookingsFromDB,
+  getOwnReceivedBookingsFromDB,
+  getBookingByIdFromDB,
+  cancelBookingIntoDB,
+  updateBookingStatusIntoDB,
+  getAllBookingsFromDB,
 };

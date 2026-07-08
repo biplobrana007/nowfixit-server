@@ -9,7 +9,10 @@ const createBooking = catchAsync(
     const customerId = req.user?.id;
     const payload = req.body;
 
-    const createdBooking = await bookingServices.createBookingIntoDB(customerId as string, payload)
+    const createdBooking = await bookingServices.createBookingIntoDB(
+      customerId as string,
+      payload
+    );
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
@@ -18,16 +21,24 @@ const createBooking = catchAsync(
     });
   }
 );
+
 const getOwnCreatedBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
+    const customerId = req.user?.id;
+
+    const bookings = await bookingServices.getOwnCreatedBookingsFromDB(
+      customerId as string
+    );
     sendResponse(res, {
       success: true,
-      statusCode: httpStatus.CREATED,
-      message: "Service created successfully!",
-      data: "",
+      statusCode: httpStatus.OK,
+      message: "Retrieved customer's own bookings successfully!",
+      data: bookings,
     });
   }
 );
+
+
 const getOwnReceivedBookings = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     sendResponse(res, {

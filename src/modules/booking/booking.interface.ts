@@ -5,5 +5,4 @@ export interface ICreateBookingPayload {
   bookingTime: string;
   bookingSlot: string;
   note?: string;
-  status?: BookingStatus;
 }
