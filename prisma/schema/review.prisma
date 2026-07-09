@@ -10,7 +10,7 @@ model Review {
     bookingId String @unique
     booking   Booking @relation(fields: [bookingId], references: [id])
 
-    rating  Int
+    rating  Float
     comment String?
 
     createdAt DateTime @default(now())

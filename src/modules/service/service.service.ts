@@ -1,4 +1,3 @@
-import { ServiceWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import ThrowError from "../../utils/throwError";
 import {

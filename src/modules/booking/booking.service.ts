@@ -47,6 +47,10 @@ const getOwnCreatedBookingsFromDB = async (customerId: string) => {
     },
   });
 
+  if (bookings.length === 0) {
+    throw new ThrowError(httpStatus.NOT_FOUND, "You have no bookings!");
+  }
+
   return bookings;
 };
 
@@ -56,6 +60,10 @@ const getOwnReceivedBookingsFromDB = async (technicanId: string) => {
       technicianId: technicanId,
     },
   });
+
+  if (bookings.length === 0) {
+    throw new ThrowError(httpStatus.NOT_FOUND, "You have no bookings!");
+  }
 
   return bookings;
 };
