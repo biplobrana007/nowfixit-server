@@ -22,6 +22,7 @@ const initiatePayment = catchAsync(
     });
   }
 );
+
 const verifyPayment = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const { bookingId, tranId, status } = req.query;

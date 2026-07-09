@@ -53,7 +53,7 @@ const initiatePaymentIntoDB = async (
     data: {
       transactionId: tnxId,
       bookingId: booking.id,
-      amount: booking.totalPrice,
+      amount: Number(booking.totalPrice),
     },
   });
   const gatewayURL = data.GatewayPageURL;
@@ -109,18 +109,15 @@ const verifyPaymentIntoDB = async (
     });
   }
 
-  if (data.status === "VALID") {
-    throw new ThrowError(httpStatus.OK, "Payment succeeded!");
-  }
-
   if (data.status === "INVALID_TRANSACTION") {
     throw new ThrowError(httpStatus.EXPECTATION_FAILED, "Payment failed!");
   }
-
-
+  return { status: "Payment successful!" };
 };
+const getCurrentUserPaymentsFromDB = async () => {};
 
 export const paymentServices = {
   initiatePaymentIntoDB,
   verifyPaymentIntoDB,
+  getCurrentUserPaymentsFromDB,
 };

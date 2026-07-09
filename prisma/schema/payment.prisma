@@ -2,7 +2,7 @@ model Payment {
     id            String        @id @default(ulid())
     transactionId String        @unique
     bookingId     String        @unique
-    amount        Decimal
+    amount        Float
     status        PaymentStatus @default(PENDING)
 
     meta Json?
