@@ -1,7 +1,10 @@
+import { ServiceWhereInput } from "../../../generated/prisma/models";
 import { prisma } from "../../lib/prisma";
 import ThrowError from "../../utils/throwError";
 import {
+  FilteredService,
   ICreateServicePayload,
+  IServiceQuery,
   IUpdateServicePayload,
 } from "./service.interface";
 import httpStatus from "http-status";
@@ -24,13 +27,35 @@ const createServiceIntoDB = async (
   return createdService;
 };
 
-const getAllServiceFromDB = async () => {
+const getAllServiceFromDB = async (query: IServiceQuery) => {
+  const { type, location, rating } = query;
+  console.log(query);
+
   const services = await prisma.service.findMany({
+    where: {
+      AND: [
+        {
+          technician: {
+            technicianProfile: { location: { equals: location } },
+          },
+        },
+        { category: { categoryName: { equals: type } } },
+      ],
+    },
     include: {
       technician: {
         select: {
-          name: true,
-          email: true,
+          technicianReviews: {
+            select: {
+              rating: true,
+              comment: true,
+            },
+          },
+          technicianProfile: {
+            select: {
+              location: true,
+            },
+          },
         },
       },
       category: {
@@ -39,8 +64,40 @@ const getAllServiceFromDB = async () => {
         },
       },
     },
+    omit: {
+      categoryId: true,
+      createdAt: true,
+      technicianId: true,
+      updatedAt: true,
+    },
   });
-  return services;
+
+  const servicesWithRating = services.map((service) => {
+    let ratingSum = 0;
+    const ratings = service.technician.technicianReviews.map((r) => {
+      return r.rating;
+    });
+
+    ratings.forEach((r) => {
+      ratingSum = ratingSum + r;
+    });
+
+    const averageRating = ratingSum / ratings.length;
+
+    return { ...service, averageRating };
+  });
+
+  if (rating) {
+    const filteredService: FilteredService[] = [];
+    servicesWithRating.forEach((s) => {
+      s.averageRating === Number(rating) &&
+        filteredService.push(s as FilteredService);
+    });
+
+    return filteredService;
+  } else {
+    return servicesWithRating;
+  }
 };
 
 const getServiceByIdFromDB = async (serviceId: string) => {

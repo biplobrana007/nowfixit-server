@@ -1,3 +1,5 @@
+import { ServiceWhereInput } from "../../../generated/prisma/models";
+
 export interface ICreateServicePayload {
   title: string;
   description: string;
@@ -12,4 +14,14 @@ export interface IUpdateServicePayload {
   duration?: number;
   categoryId?: string;
   isAvailable?: boolean;
+}
+
+export interface IServiceQuery extends ServiceWhereInput {
+  type?: string;
+  location?: string;
+  rating?: number;
+}
+
+export interface FilteredService extends ServiceWhereInput {
+  averageRating?: number;
 }
