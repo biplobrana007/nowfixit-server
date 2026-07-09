@@ -1,12 +1,29 @@
 import { prisma } from "../../lib/prisma";
 import ThrowError from "../../utils/throwError";
 import httpStatus from "http-status";
-import { IUpdateTechnicianProfilePayload } from "./technician.interface";
+import {
+  ITechnicianQuery,
+  IUpdateTechnicianProfilePayload,
+} from "./technician.interface";
 
-const getAllTechniciansFromDB = async () => {
+const getAllTechniciansFromDB = async (query: ITechnicianQuery) => {
+  const { searchTerm, status } = query;
   const technicians = await prisma.user.findMany({
     where: {
       role: "TECHNICIAN",
+      AND: [
+        {
+          OR: [
+            {
+              name: { contains: searchTerm, mode: "insensitive" },
+            },
+            {
+              email: { contains: searchTerm, mode: "insensitive" },
+            },
+          ],
+        },
+        { status: status },
+      ],
     },
     omit: {
       password: true,

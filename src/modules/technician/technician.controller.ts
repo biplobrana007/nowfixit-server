@@ -6,7 +6,8 @@ import { technicianServices } from "./technician.service";
 
 const getAllTechnicians = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
-    const technicians = await technicianServices.getAllTechniciansFromDB();
+    const query = req.query;
+    const technicians = await technicianServices.getAllTechniciansFromDB(query);
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
