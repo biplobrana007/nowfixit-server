@@ -13,4 +13,16 @@ router.post(
 
 router.post("/", paymentControllers.verifyPayment);
 
+router.get(
+  "/",
+  auth(Role.CUSTOMER, Role.TECHNICIAN),
+  paymentControllers.getCurretUserPayments
+);
+
+router.get(
+  "/:id",
+  auth(Role.CUSTOMER, Role.TECHNICIAN),
+  paymentControllers.getPaymentDetails
+);
+
 export const paymentRouter = router;

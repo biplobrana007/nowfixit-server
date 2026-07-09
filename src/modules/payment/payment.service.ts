@@ -114,10 +114,56 @@ const verifyPaymentIntoDB = async (
   }
   return { status: "Payment successful!" };
 };
-const getCurrentUserPaymentsFromDB = async () => {};
+const getCurrentUserPaymentsFromDB = async (userId: string) => {
+  const payments = await prisma.payment.findMany({
+    where: {
+      OR: [
+        { booking: { technicianId: userId } },
+        { booking: { customerId: userId } },
+      ],
+    },
+    omit: { meta: true, createdAt: true, updatedAt: true },
+  });
+
+  if (payments.length === 0) {
+    throw new ThrowError(httpStatus.NOT_FOUND, "You have no payment record!");
+  }
+  return payments;
+};
+const getPaymentDetailsFromDB = async (userId: string, paymentId: string) => {
+  const payment = await prisma.payment.findUnique({
+    where: {
+      id: paymentId,
+    },
+    include: {
+      booking: true,
+    },
+  });
+
+  if (!payment) {
+    throw new ThrowError(httpStatus.NOT_FOUND, "No payment found!");
+  }
+
+  console.log({
+    user: userId,
+    cus: payment.booking.customerId,
+    tech: payment.booking.technicianId,
+  });
+  if (
+    payment.booking.customerId !== userId &&
+    payment.booking.technicianId !== userId
+  ) {
+    throw new ThrowError(
+      httpStatus.UNAUTHORIZED,
+      "Sorry, you have no access for this payment"
+    );
+  }
+  return payment;
+};
 
 export const paymentServices = {
   initiatePaymentIntoDB,
   verifyPaymentIntoDB,
   getCurrentUserPaymentsFromDB,
+  getPaymentDetailsFromDB,
 };
