@@ -10,8 +10,6 @@ import {
 const createBookingValidation = (req: Request) => {
   const { serviceId, bookingTime, bookingSlot, note } = req.body;
 
-  console.log(req.body);
-
   // required
   validateRequiredFields(req.body, ["serviceId", "bookingTime", "bookingSlot"]);
 

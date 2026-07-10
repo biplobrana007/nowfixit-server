@@ -1,8 +1,11 @@
 import { prisma } from "../../lib/prisma";
+import ThrowError from "../../utils/throwError";
 import {
   ICreateCategoryPayload,
   IUpdateCategoryPayload,
 } from "./category.interface";
+
+import httpStatus from "http-status";
 
 const createCategoryIntoDB = async (payload: ICreateCategoryPayload) => {
   const createdCategory = await prisma.category.create({
@@ -23,6 +26,13 @@ const updateCategoryIntoDB = async (
   categoryId: string,
   payload: IUpdateCategoryPayload
 ) => {
+  const category = await prisma.category.findUnique({
+    where: { id: categoryId },
+  });
+
+  if (!category) {
+    throw new ThrowError(httpStatus.NOT_FOUND, "Category not found!");
+  }
   const updatedCategory = await prisma.category.update({
     where: {
       id: categoryId,
