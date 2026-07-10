@@ -28,7 +28,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Hello world!");
+  res.send({
+    projectName: "FixItNow",
+    description: "This is an household service providing project!",
+  });
 });
 
 //api
@@ -39,7 +42,7 @@ app.use("/api/services", serviceRouter);
 app.use("/api/bookings", bookingRouter);
 app.use("/api/payments", paymentRouter);
 app.use("/api/reviews", reviewRouter);
-app.use("/api/admin",adminRouter)
+app.use("/api/admin", adminRouter);
 
 //error handling
 app.use(notFound);
