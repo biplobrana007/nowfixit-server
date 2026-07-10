@@ -16,10 +16,10 @@ const getAllTechnicians = catchAsync(
     });
   }
 );
-const getTechniciansById = catchAsync(
+const getTechnicianById = catchAsync(
   async (req: Request, res: Response, next: NextFunction) => {
     const id = req.params.id;
-    const technician = await technicianServices.getTechniciansByIdFromDB(
+    const technician = await technicianServices.getTechnicianByIdFromDB(
       id as string
     );
     sendResponse(res, {
@@ -50,6 +50,6 @@ const updateTechnicianProfile = catchAsync(
 
 export const technicianControllers = {
   getAllTechnicians,
-  getTechniciansById,
+  getTechnicianById,
   updateTechnicianProfile,
 };

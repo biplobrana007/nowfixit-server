@@ -11,3 +11,4 @@ export interface IUpdateTechnicianProfilePayload {
 export interface ITechnicianQuery extends UserWhereInput {
   searchTerm?: string;
 }
+ 

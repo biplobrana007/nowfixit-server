@@ -35,7 +35,7 @@ const getAllTechniciansFromDB = async (query: ITechnicianQuery) => {
   return technicians;
 };
 
-const getTechniciansByIdFromDB = async (technicianId: string) => {
+const getTechnicianByIdFromDB = async (technicianId: string) => {
   const technician = await prisma.user.findUnique({
     where: {
       id: technicianId,
@@ -105,6 +105,6 @@ const updateTechnicianProfileIntoDB = async (
 
 export const technicianServices = {
   getAllTechniciansFromDB,
-  getTechniciansByIdFromDB,
+  getTechnicianByIdFromDB,
   updateTechnicianProfileIntoDB,
 };

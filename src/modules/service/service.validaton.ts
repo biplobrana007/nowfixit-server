@@ -38,25 +38,9 @@ const getServiceByIdValidation = (req: Request) => {
   validateUUID("ServiceId", serviceId as string);
 };
 const updateServiceValidation = (req: Request) => {
-//   const serviceId = req.params.id;
-//   const { title, description, price, duration, categoryId } = req.body;
+  const serviceId = req.params.id;
 
-//   validateUUID("ServiceId", serviceId as string);
-
-//   validateTypes(req.body, {
-//     title: "string",
-//     description: "string",
-//     price: "string",
-//     duration: "number",
-//     categoryId: "string",
-//   });
-
-//   validatePositiveNumber("Price", Number(price));
-//   validatePositiveNumber("Duration", duration);
-//   validateStringLength("Description", description, 20, 150);
-//   validateStringLength("Title", title, 10, 50);
-
-//   validateUUID("CategoryId", categoryId);
+  validateUUID("ServiceId", serviceId as string);
 };
 const deleteServiceValidation = (req: Request) => {
   const serviceId = req.params.id;
