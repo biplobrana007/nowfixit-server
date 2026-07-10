@@ -10,13 +10,6 @@ import httpStatus from "http-status";
 const registerUserIntoDB = async (payload: IRegisterUserPayload) => {
   const { name, email, password, profilePhoto, role } = payload;
 
-  if (role === "ADMIN") {
-    throw new ThrowError(
-      httpStatus.FORBIDDEN,
-      "You cant register as ADMIN. Please try to register as TECHNICIAN or CUSTOMER"
-    );
-  }
-
   const isUserExist = await prisma.user.findUnique({
     where: { email },
   });
