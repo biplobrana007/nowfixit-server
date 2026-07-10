@@ -1,5 +1,5 @@
 model Payment {
-    id            String        @id @default(ulid())
+    id            String        @id @default(uuid())
     transactionId String        @unique
     bookingId     String        @unique
     amount        Float
