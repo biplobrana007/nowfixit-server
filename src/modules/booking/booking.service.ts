@@ -172,7 +172,10 @@ const updateBookingStatusIntoDB = async (
   const canUpdate = allowedUpdation[booking.status].includes(payload.status!);
 
   if (!canUpdate) {
-    throw new ThrowError(httpStatus.BAD_REQUEST, "Invalid status updation!");
+    throw new ThrowError(
+      httpStatus.BAD_REQUEST,
+      `The current status is ${booking.status}, so you cant update the status as ${payload.status}`
+    );
   }
 
   const statusUpdateddBooking = await prisma.booking.update({

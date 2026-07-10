@@ -2,13 +2,20 @@ import { Router } from "express";
 import auth from "../../middleware/auth";
 import { Role } from "../../../generated/prisma/enums";
 import { bookingControllers } from "./booking.controller";
+import validateInput from "../../middleware/validiateInput";
+import { bookingValidations } from "./booking.validation";
 
 const router = Router();
 
-router.post("/", auth(Role.CUSTOMER), bookingControllers.createBooking);
+router.post(
+  "/",
+  auth(Role.CUSTOMER),
+  validateInput(bookingValidations.createBookingValidation),
+  bookingControllers.createBooking
+);
 router.get(
   "/my-bookings",
-  auth(Role.CUSTOMER),
+  auth(Role.CUSTOMER, Role.TECHNICIAN),
   bookingControllers.getOwnCreatedBookings
 );
 router.get(
@@ -19,18 +26,21 @@ router.get(
 router.get(
   "/:id",
   auth(Role.ADMIN, Role.CUSTOMER, Role.TECHNICIAN),
+  validateInput(bookingValidations.getBookingByIdValidation),
   bookingControllers.getBookingById
 );
 
 router.patch(
-  "/:id/cancel",
+  "/cancel/:id",
   auth(Role.CUSTOMER),
+  validateInput(bookingValidations.cancelBookingValidation),
   bookingControllers.cancelBooking
 );
 
 router.patch(
-  "/:id/status",
+  "/status/:id",
   auth(Role.TECHNICIAN),
+  validateInput(bookingValidations.updateBookingValidation),
   bookingControllers.updateBookingStatus
 );
 

@@ -1,6 +1,5 @@
 import { Request } from "express";
-import ThrowError from "../../utils/throwError";
-import httpStatus from "http-status";
+
 import {
   validateEmail,
   validateEnum,
