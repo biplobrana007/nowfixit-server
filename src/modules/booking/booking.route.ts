@@ -15,7 +15,7 @@ router.post(
 );
 router.get(
   "/my-bookings",
-  auth(Role.CUSTOMER, Role.TECHNICIAN),
+  auth(Role.CUSTOMER),
   bookingControllers.getOwnCreatedBookings
 );
 router.get(

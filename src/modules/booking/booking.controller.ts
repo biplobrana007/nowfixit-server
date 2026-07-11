@@ -119,7 +119,7 @@ const getAllBookings = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.CREATED,
-      message: "Service created successfully!",
+      message: "Bookings retrieved successfully!",
       data: bookings,
     });
   }

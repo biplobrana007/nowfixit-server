@@ -50,8 +50,8 @@ const loginValidation = (req: Request) => {
   // email
   validateEmail(email);
 
-//   // password
-//   validatePassword(password);
+  // password
+  validatePassword(password);
 };
 
 export const authValidations = {

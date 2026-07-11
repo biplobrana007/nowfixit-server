@@ -69,7 +69,7 @@ const getPaymentDetails = catchAsync(
     sendResponse(res, {
       success: true,
       statusCode: httpStatus.OK,
-      message: "Payments retrieved successfully!",
+      message: "Payment details retrieved successfully!",
       data: payment,
     });
   }
