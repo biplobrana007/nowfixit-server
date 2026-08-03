@@ -1,3 +1,4 @@
+import { toUnicode } from "node:punycode";
 import { prisma } from "../../lib/prisma";
 import ThrowError from "../../utils/throwError";
 import {
@@ -48,6 +49,12 @@ const getAllServiceFromDB = async (query: IServiceQuery) => {
             select: {
               rating: true,
               comment: true,
+              customer: {
+                select: {
+                  name: true,
+                  profilePhoto: true,
+                },
+              },
             },
           },
           technicianProfile: {
