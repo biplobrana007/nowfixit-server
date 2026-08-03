@@ -114,6 +114,15 @@ const getServiceByIdFromDB = async (serviceId: string) => {
     include: {
       technician: {
         select: {
+          technicianReviews: {
+            select: {
+              rating: true,
+              comment: true,
+              customer: {
+                select: { name: true, profilePhoto: true },
+              },
+            },
+          },
           name: true,
           email: true,
         },
@@ -129,7 +138,19 @@ const getServiceByIdFromDB = async (serviceId: string) => {
   if (!service) {
     throw new ThrowError(httpStatus.NOT_FOUND, "Service Not Found!");
   }
-  return service;
+
+  let ratingSum = 0;
+  const ratings = service.technician.technicianReviews.map((r) => {
+    return r.rating;
+  });
+
+  ratings.forEach((r) => {
+    ratingSum = ratingSum + r;
+  });
+
+  const averageRating = ratingSum / ratings.length;
+
+  return { service, averageRating };
 };
 
 const updateServiceIntoDB = async (
